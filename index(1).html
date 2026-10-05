@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F4;--panel:#FFFFFF;--ink:#14213D;--mute:#5B6B82;--line:#D3DAE3;--acc:#0F766E;--acc2:#B45309;--accbg:#D9F0EC;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1726;--panel:#16233A;--ink:#E6ECF5;--mute:#93A3BB;--line:#26364F;--acc:#4FD1C0;--acc2:#F2B04C;--accbg:#123B3A}}
+:root[data-theme="dark"]{--bg:#0E1726;--panel:#16233A;--ink:#E6ECF5;--mute:#93A3BB;--line:#26364F;--acc:#4FD1C0;--acc2:#F2B04C;--accbg:#123B3A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:960px;margin:0 auto;padding:20px 16px 64px}
+h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;margin:0;line-height:1.2}
+h1{font-size:clamp(26px,5vw,36px)}
+h2{font-size:21px;margin:36px 0 12px}
+h3{font-size:16px}
+p{margin:0}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.sub,.sm{color:var(--mute)}
+.sm{font-size:14px}
+button,select,input,textarea{font:inherit;color:var(--ink)}
+button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:8px 14px}
+button:hover{border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.btn-p{background:var(--acc);color:var(--bg);border-color:var(--acc);font-weight:500}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:16px}
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:20px}
+@media(max-width:700px){.hero{grid-template-columns:1fr}}
+.rank{border-left:6px solid var(--acc)}
+.rank .big{font:700 30px "Space Grotesk",sans-serif}
+.bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 4px}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .5s}
+.streak{text-align:center}
+.streak .n{font:700 56px "Space Grotesk",sans-serif;color:var(--acc2);line-height:1}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.mini b{display:block;font:700 20px "Space Grotesk",sans-serif}
+.day{color:var(--acc2);font-weight:500}
+#today h2{margin:2px 0 8px;font-size:25px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{background:var(--accbg);color:var(--acc);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:500}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.clock{font:700 44px "Space Grotesk",monospace;min-width:130px}
+.seg button{padding:4px 10px;font-size:14px}
+.seg button.on{background:var(--accbg);border-color:var(--acc);color:var(--acc)}
+.ci{border-top:1px solid var(--line);margin-top:16px;padding-top:16px;display:grid;gap:10px}
+.ci .row{align-items:flex-end}
+.fld{display:grid;gap:4px;font-size:14px;color:var(--mute)}
+input[type=number],select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+input[type=number]{width:90px}
+textarea{width:100%;min-height:70px;resize:vertical}
+.mood button{font-size:22px;padding:2px 8px;min-width:46px;min-height:46px;filter:grayscale(1);opacity:.6}
+.mood button.on{filter:none;opacity:1;border-color:var(--acc);background:var(--accbg)}
+.heatw{overflow-x:auto}
+.heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;grid-auto-columns:1fr;gap:3px;width:100%;min-width:280px}
+.hd{margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-height:48px}
+.heat i:hover,.heat i:focus{outline:2px solid var(--acc)}
+.heat i{border-radius:3px;background:var(--line);aspect-ratio:1;cursor:pointer}
+.heat .f{background:transparent}
+.heat .l1{background:color-mix(in srgb,var(--acc) 30%,var(--line))}
+.heat .l2{background:color-mix(in srgb,var(--acc) 55%,var(--line))}
+.heat .l3{background:color-mix(in srgb,var(--acc) 80%,var(--line))}
+.heat .l4{background:var(--acc)}
+.heat .td{outline:2px solid var(--acc2)}
+.wk{display:flex;gap:8px;align-items:flex-end;height:110px;margin-top:18px}
+.wk div{flex:1;text-align:center;font-size:12px;color:var(--mute);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.wk i{display:block;background:var(--acc);border-radius:4px 4px 0 0;min-height:2px;margin-bottom:4px}
+.bd{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.b{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;gap:10px}
+.b .ic{font-size:26px}
+.b.lock{opacity:.45}
+.b.lock .ic{filter:grayscale(1)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
+summary{cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:center;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;color:var(--mute);font-size:20px}
+details[open] summary::after{content:"–"}
+.lv{font:700 14px "Space Grotesk",sans-serif;background:var(--ink);color:var(--bg);border-radius:6px;padding:2px 8px}
+.dn .lv{background:var(--acc)}
+.body{padding:0 16px 14px;border-top:1px solid var(--line)}
+.body p{margin:12px 0 6px;color:var(--mute);font-size:14px}
+label.t{display:flex;gap:10px;padding:5px 0;cursor:pointer}
+label.t input{margin-top:5px;accent-color:var(--acc);width:16px;height:16px}
+label.t input:checked+span{text-decoration:line-through;color:var(--mute)}
+a{color:var(--acc)}
+.res{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 8px}
+.res a{display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:14px;text-decoration:none;color:var(--ink)}
+.res a:hover{border-color:var(--acc);color:var(--acc)}
+.j{border-bottom:1px solid var(--line);padding:10px 0}
+.j:last-child{border:0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;transition:transform .3s;z-index:9;max-width:90%}
+#toast.show{transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.4}main{position:relative;z-index:1}.rank{position:relative;padding-right:112px}.emb{position:absolute;right:14px;top:14px;width:88px;height:88px;border-radius:12px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;padding:4px;overflow:hidden}.emb img{width:100%;height:100%;object-fit:contain;display:block}
+
+/* dock magnify + sliding pill */
+.res,.seg{position:relative}
+:is(.res,.seg)>:is(a,button){position:relative;z-index:1;transform-origin:50% 100%;will-change:transform;transition:transform .3s cubic-bezier(.34,1.56,.64,1),color .1s,background-color .1s,border-color .1s}
+:is(.res,.seg)[data-mv]>:is(a,button){transition:transform .04s linear,color .1s,background-color .1s,border-color .1s}
+.dk-i{position:absolute;z-index:10;left:0;top:0;width:0;height:0;border-radius:8px;background:var(--acc);opacity:0;pointer-events:none;box-shadow:0 6px 16px color-mix(in srgb,var(--acc) 35%,transparent);transition:transform .14s cubic-bezier(.2,.8,.2,1),width .14s cubic-bezier(.2,.8,.2,1),height .14s cubic-bezier(.2,.8,.2,1),opacity .1s}
+
+/* flashcard motivasi */
+.fc-wrap{perspective:1200px;margin-top:12px}
+.fc{position:relative;width:100%;min-height:230px;cursor:pointer;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.8,.2,1);border:0;background:none;padding:0;text-align:left}
+.fc.flip{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:22px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;overflow:auto}
+.fc-b{transform:rotateY(180deg)}
+.fc-q{font:500 clamp(18px,3vw,23px)/1.4 "Space Grotesk",system-ui,sans-serif}
+.fc-a{color:var(--acc2);font-weight:500}
+.fc-t{font-size:13px;color:var(--mute)}
+.fc-who{display:flex;gap:12px;align-items:center}
+.fc-ph{flex:none;width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--accbg);color:var(--acc);display:grid;place-items:center;font:700 20px "Space Grotesk",sans-serif;border:2px solid var(--acc2)}
+.fc-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
+.fc-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.fc-nav .sm{margin-left:auto}
+@media (prefers-reduced-motion:reduce){.fc{transition:none}}
+
+/* status level roadmap: merah = belum selesai, hijau = selesai */
+:root{--red:#DC2626;--grn:#16A34A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--red:#F87171;--grn:#4ADE80}}
+:root[data-theme="dark"]{--red:#F87171;--grn:#4ADE80}
+#levels details{border-left:6px solid var(--red)}
+#levels details.dn{border-left-color:var(--grn)}
+#levels summary>span:last-child{flex:1;min-width:0}
+.lbar{display:block;height:8px;border-radius:4px;background:var(--red);overflow:hidden;margin-top:6px;max-width:320px}
+.lbar i{display:block;height:100%;background:var(--grn);transition:width .5s}
+
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.tabs button{flex:1;min-width:150px}.tabs button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.focus{border-left:6px solid var(--acc2)}.focus-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.focus-list{display:grid;gap:6px;margin-top:10px}.focus-item{display:flex;gap:10px;align-items:flex-start;padding:6px 0}.focus-item input{margin-top:5px;accent-color:var(--acc)}
+.pinbtn{padding:5px 9px;font-size:13px;margin-left:auto}.phase-hide{display:none!important}.backup-alert{border:1px solid #DC2626;background:color-mix(in srgb,#DC2626 10%,var(--panel));color:#DC2626;border-radius:8px;padding:10px;margin-bottom:12px}.journal-editor{display:grid;gap:10px}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<main>
+<div class="top">
+  <div><h1>Belajar Cybersecurity</h1><p class="sub">Target: Junior Pentester / Cybersecurity Analyst | Fokus: Bangun skill → latihan → selesaikan challenge → kumpulkan pengalaman.</p><p class="sm" id="sync">…</p></div>
+  <button id="themeBtn">Tema</button>
+</div>
+
+<div class="hero">
+  <div class="card rank" id="rank"></div>
+  <div class="card streak" id="streak"></div>
+</div>
+
+<section class="card" id="today">
+  <span class="day" id="dayName"></span>
+  <h2 id="dayNote"></h2>
+  <div class="chips" id="chips"></div>
+  <div class="row">
+    <div class="clock" id="clock">15:00</div>
+    <button class="btn-p" id="go">Mulai</button><button id="rst">Reset</button>
+    <div class="seg row" id="dur"></div>
+  </div>
+  <div class="ci">
+    <h3>Absen hari ini</h3>
+    <div class="row mood" id="mood"></div>
+    <div class="row">
+      <label class="fld">Level yang dipelajari<select id="lvSel"></select></label>
+      <label class="fld">Menit<input type="number" id="min" min="1" max="600" value="15"></label>
+    </div>
+    <label class="fld">Catatan (apa yang dipelajari / dikerjakan)<textarea id="note" placeholder="Contoh: Bandit level 5, belajar find -size dan grep."></textarea></label>
+    <div class="row"><button class="btn-p" id="absen">Absen sekarang</button><span class="sm" id="absenInfo"></span></div>
+  </div>
+</section>
+
+<section class="card" id="motiv">
+  <h2 style="margin:0 0 4px">Flashcard Motivasi</h2>
+  <p class="sm">Satu kutipan baru tiap hari dari tokoh yang berkontribusi besar di bidangnya. Klik kartu untuk membalik. Foto dari Wikipedia.</p>
+  <div class="fc-wrap"><button class="fc" id="fc" aria-live="polite">
+    <div class="fc-f"><span class="fc-t" id="fcCat"></span><div class="fc-q" id="fcQ"></div><div class="fc-who"><div class="fc-ph" id="fcPh"><span id="fcIni"></span><img id="fcImg" alt="" hidden></div><div><div class="fc-a" id="fcA"></div><div class="fc-t" id="fcR"></div></div></div></div>
+    <div class="fc-b"><span class="fc-t">Pesan untuk belajarmu</span><div class="fc-q" id="fcTip"></div><div class="fc-t">Teks asli: <i id="fcOrig"></i></div></div>
+  </button></div>
+  <div class="fc-nav"><button id="fcPrev">← Sebelumnya</button><button id="fcNext">Berikutnya →</button><button id="fcRnd">Acak</button><button id="fcToday">Kutipan hari ini</button><span class="sm" id="fcN"></span></div>
+</section>
+
+<h2>Konsistensi</h2>
+<div class="card">
+  <div class="heatw"><div class="heat" id="heat"></div></div>
+  <div class="hd" id="hd"></div>
+  <p class="sm" style="margin-top:8px">20 minggu terakhir. Makin gelap, makin lama belajarnya.</p>
+  <div class="wk" id="wk"></div>
+</div>
+
+<h2>Lencana</h2>
+<div class="bd" id="badges"></div>
+
+<h2>Roadmap 10 Tahap</h2>
+<section class="card focus" id="focusToday">
+  <div class="focus-head"><div><span class="day">Fokus Hari Ini</span><h3 id="focusTitle">Belum ada tahap yang disematkan</h3></div><button id="clearPin">Lepas Pin</button></div>
+  <div id="focusList"><p class="sm">Sematkan satu tahap dari roadmap untuk menampilkan checklist-nya di sini.</p></div>
+</section>
+<div class="tabs" id="phaseTabs"><button class="on" data-phase="foundation">Fondasi</button><button data-phase="pentest">Praktik Pentest</button><button data-phase="career">Pengayaan & Karier</button></div>
+<div id="levels"></div>
+
+<h2>Kanal & cheatsheet</h2>
+<div class="card"><p class="sm">Buat nambah wawasan di luar jadwal. 📺 video · 🎮 latihan · 📖 bacaan · 🧰 tools</p><div class="res" id="extra"></div></div>
+
+<h2>Jurnal</h2>
+<div class="card journal-editor">
+  <div class="row"><label class="fld" style="flex:1;min-width:190px">Tahap<select id="jrStage"></select></label><button id="jrTemplate">Insert Template</button></div>
+  <label class="fld">Catatan<textarea id="jrText" placeholder="Tulis perkembangan belajarmu..."></textarea></label>
+  <button class="btn-p" id="jrSave">Simpan Jurnal</button>
+</div>
+<div class="card" id="jr"></div>
+
+<h2>Cadangan Data</h2>
+<div class="card backup-card">
+  <div id="backupAlert" class="backup-alert" hidden>⚠️ Backup terakhir sudah lebih dari 7 hari. Sebaiknya unduh cadangan sekarang.</div>
+  <p class="sm" style="margin-bottom:10px">Data progres tersimpan di browser. Gunakan file JSON untuk memindahkan atau mengamankan progres.</p>
+  <div class="row">
+    <button class="btn-p" id="exJ">Unduh Data .json</button><button id="pickJson">Unggah Data .json</button><input id="jsonFile" type="file" accept="application/json,.json" hidden><button id="exM">Ekspor Jurnal (Markdown)</button><button id="cp">Salin JSON</button>
+  </div>
+  <p class="sm" id="backupInfo" style="margin-top:8px"></p>
+  <textarea id="bk" placeholder="Opsional: isi JSON di sini jika ingin impor lewat teks"></textarea>
+  <button id="im" style="margin-top:8px">Impor dari teks</button>
+</div>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+const DN=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+const SCHED={1:{lv:[1],n:"Fondasi Linux & Terminal"},2:{lv:[2],n:"Networking & Analisis Trafik"},3:{lv:[3],n:"Windows & PowerShell Fundamentals"},4:{lv:[4],n:"Pemrograman & Otomatisasi (Python)"},5:{lv:[5],n:"Fondasi Web & Database"},6:{lv:[6],n:"Web Application Security & Burp Suite"},0:{lv:[10],n:"Pelaporan, Portofolio & Karier"}};
+const L=[
+{n:1,t:"Fondasi Linux & Terminal",r:"Linux Journey",u:"https://linuxjourney.com/",k:["Navigasi: ls, cd, grep, find","Hak akses: chmod, chown, sudo","Manajemen sistem Linux","SSH: koneksi dan penggunaan dasar"]},
+{n:2,t:"Networking & Analisis Trafik",r:"Cisco NetAcad + Practical Networking",u:"https://www.practicalnetworking.net/",k:["OSI & TCP/IP","Subnetting IPv4","Analisis paket dengan Wireshark","Scanning dan enumerasi dengan Nmap"]},
+{n:3,t:"Windows & PowerShell Fundamentals",r:"Microsoft Learn",u:"https://learn.microsoft.com/powershell/",k:["Windows Registry","NTFS","Windows Services","Cmdlet PowerShell","Konsep LOLBAS"]},
+{n:4,t:"Pemrograman & Otomatisasi (Python)",r:"Python Docs",u:"https://docs.python.org/3/tutorial/",k:["Sintaks dan logika Python dasar","Socket programming: membuat port scanner","HTTP requests: membuat directory brute-forcer"]},
+{n:5,t:"Fondasi Web & Database",r:"MDN Web Docs",u:"https://developer.mozilla.org/",k:["HTML, CSS, dan JavaScript dasar","HTTP: methods, headers, cookies","SQL Query","CRUD: Create, Read, Update, Delete"]},
+{n:6,t:"Web Application Security & Burp Suite",r:"PortSwigger Web Security Academy",u:"https://portswigger.net/web-security",k:["Burp Suite: Intercept, Repeater, Intruder","OWASP Top 10: SQLi, XSS, IDOR","Praktik DVWA","Praktik OWASP Juice Shop"]},
+{n:7,t:"Network & System Pentesting",r:"TryHackMe Jr Pentester",u:"https://tryhackme.com/path/outline/jrpenetrationtester",k:["Enumerasi SMB, FTP, dan SSH","Reverse shell & payload","Metasploit Framework"]},
+{n:8,t:"Privilege Escalation Linux & Windows",r:"GTFOBins + LOLBAS",u:"https://gtfobins.github.io/",k:["Linux PrivEsc: SUID, sudo -l, cron","Windows PrivEsc: unquoted path","Windows PrivEsc: token impersonation","Membaca dan menggunakan HackTricks / PayloadsAllTheThings"]},
+{n:9,t:"Hands-On Labs & Penetration Testing Chain",r:"Hack The Box & HTB Academy",u:"https://academy.hackthebox.com/",k:["Lab boot-to-root mandiri","Reconnaissance sampai enumeration","Eksploitasi dan mendapatkan akses","Privilege escalation","Full-chain penetration testing dari recon hingga privesc"]},
+{n:10,t:"Pelaporan, Portofolio & Persiapan Sertifikasi",r:"GitHub Skills + INE eJPT",u:"https://ine.com/",k:["Laporan pentest: Executive Summary","CVSS dan penentuan severity","PoC dan rekomendasi remediasi","Portofolio GitHub","Persiapan eJPT / CPTS"]}];
+const TY={v:"📺",l:"🎮",b:"📖",t:"🧰"};
+const RES={
+1:[["b","Linux Journey","https://linuxjourney.com/"],["l","OverTheWire: Bandit 0–15","https://overthewire.org/wargames/bandit/"],["b","The Linux Command Line","https://linuxcommand.org/tlcl.php"],["t","explainshell","https://explainshell.com/"],["b","Petani Kode","https://www.petanikode.com/"]],
+2:[["v","Professor Messer Network+","https://www.professormesser.com/"],["b","Cisco NetAcad","https://www.netacad.com/"],["b","Practical Networking","https://www.practicalnetworking.net/"],["t","Wireshark Guide","https://www.wireshark.org/docs/"],["b","Nmap Guide","https://nmap.org/book/man.html"]],
+3:[["b","Microsoft Learn","https://learn.microsoft.com/"],["l","TryHackMe Windows Fundamentals","https://tryhackme.com/"],["b","SS64 PowerShell","https://ss64.com/ps/"],["t","LOLBAS Project","https://lolbas-project.github.io/"]],
+4:[["b","Python Docs","https://docs.python.org/3/tutorial/"],["b","Automate the Boring Stuff","https://automatetheboringstuff.com/"],["l","freeCodeCamp","https://www.freecodecamp.org/"],["b","Petani Kode","https://www.petanikode.com/"]],
+5:[["b","MDN Web Docs","https://developer.mozilla.org/"],["l","freeCodeCamp","https://www.freecodecamp.org/"],["l","SQLBolt","https://sqlbolt.com/"],["l","SQLZoo","https://sqlzoo.net/"],["b","W3Schools","https://www.w3schools.com/"]],
+6:[["l","PortSwigger Academy","https://portswigger.net/web-security"],["b","OWASP Top 10","https://owasp.org/www-project-top-ten/"],["t","Burp Suite Docs","https://portswigger.net/burp/documentation"],["l","OWASP Juice Shop","https://owasp.org/www-project-juice-shop/"],["l","DVWA","https://github.com/digininja/DVWA"]],
+7:[["l","TryHackMe Jr Pentester","https://tryhackme.com/path/outline/jrpenetrationtester"],["b","Metasploit Unleashed","https://www.offsec.com/metasploit-unleashed/"],["t","Exploit-DB","https://www.exploit-db.com/"],["t","RevShells","https://www.revshells.com/"]],
+8:[["t","GTFOBins","https://gtfobins.github.io/"],["t","LOLBAS Project","https://lolbas-project.github.io/"],["b","HackTricks","https://book.hacktricks.wiki/"],["b","PayloadsAllTheThings","https://github.com/swisskyrepo/PayloadsAllTheThings"]],
+9:[["l","Hack The Box","https://www.hackthebox.com/"],["l","HTB Academy","https://academy.hackthebox.com/"],["l","VulnHub","https://www.vulnhub.com/"],["l","TryHackMe","https://tryhackme.com/"]],
+10:[["l","GitHub Skills","https://skills.github.com/"],["t","CVSS Calculator","https://www.first.org/cvss/calculator/3.1"],["b","Public Pentest Reports","https://github.com/juliocesarfort/public-pentesting-reports"],["l","INE eJPT","https://ine.com/"] ]};
+const EX=[["v","The Cyber Mentor","https://www.youtube.com/@TCMSecurityAcademy"],["v","John Hammond","https://www.youtube.com/@_JohnHammond"],["v","NetworkChuck","https://www.youtube.com/@NetworkChuck"],["v","David Bombal","https://www.youtube.com/@davidbombal"],["v","IppSec","https://www.youtube.com/@ippsec"],["t","CyberChef","https://gchq.github.io/CyberChef/"],["t","GTFOBins","https://gtfobins.github.io/"],["b","HackTricks","https://book.hacktricks.wiki/"],["t","explainshell","https://explainshell.com/"],["t","Reverse Shell Generator","https://www.revshells.com/"],["b","Exploit-DB","https://www.exploit-db.com/"]];
+const rl=a=>a.map(x=>`<a href="${x[2]}" target="_blank" rel="noopener">${TY[x[0]]} ${x[1]}</a>`).join("");
+const RANKS=[[0,"Newbie"],[100,"Script Kiddie"],[300,"Packet Sniffer"],[600,"Port Scanner"],[1000,"Exploit Apprentice"],[1600,"Red Teamer"],[2400,"Jr Pentester"]];
+const MOODS=["😫","😐","🙂","😄","🔥"];
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,"0");
+const key=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const num=k=>{const[y,m,d]=k.split("-").map(Number);return Math.round(Date.UTC(y,m-1,d)/864e5)};
+let S={c:{},log:{},b:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem("daily-belajar-v2")||localStorage.getItem("daily-belajar")||"{}"))}catch(e){}
+S.c=S.c||{};S.log=S.log||{};S.b=S.b||{};S.journal=S.journal||[];S.pinned=Number(S.pinned)||0;S.phase=S.phase||"foundation";
+const snapOf=()=>{const{t,...r}=S;return JSON.stringify(r)};
+let lastSnap=snapOf();
+const save=()=>{try{const j=snapOf();if(j!==lastSnap){lastSnap=j;S.t=Date.now();push()}localStorage.setItem("daily-belajar-v2",JSON.stringify(S))}catch(e){}};
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+const now=new Date(),tk=key(now),dow=now.getDay();
+const ok=k=>S.log[k]&&S.log[k].ok;
+const lvOf=n=>L.find(x=>x.n===n);
+const done=l=>l.k.filter((_,i)=>S.c[l.n+"-"+i]).length;
+
+function stats(){
+  const ks=Object.keys(S.log).filter(ok).sort();
+  let mins=0,notes=0;ks.forEach(k=>{mins+=+S.log[k].min||0;if(S.log[k].note)notes++});
+  let cur=0,d=new Date();if(!ok(key(d)))d.setDate(d.getDate()-1);
+  while(ok(key(d))){cur++;d.setDate(d.getDate()-1)}
+  let lng=0,run=0,prev=null;ks.forEach(k=>{const n=num(k);run=(prev!==null&&n-prev===1)?run+1:1;prev=n;lng=Math.max(lng,run)});
+  const tasks=Object.values(S.c).filter(Boolean).length;
+  const full=L.filter(l=>done(l)===l.k.length).length;
+  const xp=tasks*10;
+  return{days:ks.length,mins,notes,cur,lng,tasks,full,xp};
+}
+const T=id=>!!S.c[id];
+const BD=[
+{id:"a1",ic:"✅",n:"Absen Pertama",d:"Absen 1 hari",f:s=>s.days>=1},
+{id:"s3",ic:"🔥",n:"Panas 3 Hari",d:"Streak 3 hari",f:s=>s.lng>=3},
+{id:"s7",ic:"⚡",n:"Seminggu Penuh",d:"Streak 7 hari",f:s=>s.lng>=7},
+{id:"s30",ic:"🏆",n:"Sebulan Konsisten",d:"Streak 30 hari",f:s=>s.lng>=30},
+{id:"h10",ic:"⏱️",n:"10 Jam Klub",d:"Total 10 jam belajar",f:s=>s.mins>=600},
+{id:"h50",ic:"🕰️",n:"50 Jam Klub",d:"Total 50 jam belajar",f:s=>s.mins>=3000},
+{id:"n5",ic:"📓",n:"Penulis Jurnal",d:"5 catatan harian",f:s=>s.notes>=5},
+{id:"t25",ic:"🧩",n:"25 Materi",d:"Centang 25 materi",f:s=>s.tasks>=25},
+{id:"l1",ic:"🎯",n:"Level Tuntas",d:"Selesaikan 1 level penuh",f:s=>s.full>=1},
+{id:"bd",ic:"🕹️",n:"Bandit Runner",d:"Bandit 0–15 selesai",f:()=>T("2-3")},
+{id:"ps",ic:"🛰️",n:"Scanner Builder",d:"Port scanner Python jadi",f:()=>T("5-5")},
+{id:"bp",ic:"🕷️",n:"Burp Rookie",d:"Kuasai Burp dasar",f:()=>T("8-0")},
+{id:"rp",ic:"📄",n:"Report Writer",d:"Bisa nulis report severity & PoC",f:()=>T("11-3")},
+{id:"pt",ic:"🛡️",n:"Jr Pentester",d:"Capai rank Jr Pentester",f:s=>s.xp>=2400}];
+
+let toastT;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),3500)}
+const rankOf=x=>{let r=0;RANKS.forEach((v,i)=>{if(x>=v[0])r=i});return r};
+
+function rHero(s){
+  const r=rankOf(s.xp),nx=RANKS[r+1],lo=RANKS[r][0];
+  const p=nx?Math.round((s.xp-lo)/(nx[0]-lo)*100):100;
+  $("#rank").innerHTML=`<span class="sm">Rank</span><div class="big">${RANKS[r][1]}</div>
+  <div class="bar"><i style="width:${p}%"></i></div>
+  <span class="sm">${s.xp} XP ${nx?"· "+(nx[0]-s.xp)+" XP lagi ke "+nx[1]:"· rank tertinggi"}</span>
+  <div class="mini"><div><b>${s.days}</b><span class="sm">Hari absen</span></div><div><b>${Math.round(s.mins/60*10)/10} jam</b><span class="sm">Total belajar</span></div><div><b>${s.full}/10</b><span class="sm">Level tuntas</span></div></div>`;
+  emblem(r);$("#streak").innerHTML=`<span class="sm">Streak</span><div class="n">${s.cur}🔥</div><p>hari berturut-turut</p><p class="sm" style="margin-top:8px">Terpanjang: ${s.lng} hari</p>
+  <p class="sm" style="margin-top:8px">${ok(tk)?"Hari ini sudah absen. Mantap!":s.cur?"Absen hari ini biar streak "+s.cur+" nggak putus.":"Absen hari ini buat mulai streak."}</p>`;
+}
+function rHeat(){
+  const t=new Date();t.setHours(0,0,0,0);
+  const start=new Date(t);start.setDate(t.getDate()-((t.getDay()+6)%7)-19*7);
+  let h="";
+  for(let i=0;i<140;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=key(d);
+    if(d>t){h+='<i class="f"></i>';continue}
+    const m=ok(k)?+S.log[k].min||0:0,c=!ok(k)?"":m>=25?"l4":m>=15?"l3":m>=10?"l2":"l1";
+    h+=`<i class="${c} ${k===tk?"td":""}" data-k="${k}" tabindex="0" role="button" aria-label="${k}: ${m} menit"></i>`}
+  $("#heat").innerHTML=h;
+  document.querySelectorAll("#heat i[data-k]").forEach(el=>{const f=()=>showDay(el.dataset.k);el.onclick=f;el.onmouseenter=f;el.onfocus=f});
+  showDay(tk);
+  const a=[];for(let i=6;i>=0;i--){const d=new Date(t);d.setDate(t.getDate()-i);const k=key(d);a.push([DN[d.getDay()].slice(0,3),ok(k)?+S.log[k].min||0:0])}
+  const mx=Math.max(30,...a.map(x=>x[1]));
+  $("#wk").innerHTML=a.map(x=>`<div><i style="height:${Math.round(x[1]/mx*80)}px"></i>${x[1]?x[1]+"m":"–"}<br>${x[0]}</div>`).join("");
+}
+function showDay(k){
+  const e=S.log[k],d=new Date(k+"T00:00:00"),h=DN[d.getDay()]+", "+k;
+  $("#hd").innerHTML=ok(k)?`<b>${h}</b> · ${e.min} menit · Level ${e.lv} ${MOODS[e.mood]||""}<br>${e.note?e.note.replace(/</g,"&lt;"):'<span class="sm">Tidak ada catatan.</span>'}`:`<b>${h}</b><br><span class="sm">Belum ada absen di hari ini.</span>`;
+}
+function rBadges(s,quiet){
+  $("#badges").innerHTML=BD.map(b=>{const e=b.f(s);
+    if(e&&!S.b[b.id]){S.b[b.id]=tk;if(!quiet)toast("Lencana baru: "+b.n+" "+b.ic)}
+    return`<div class="b ${e?"":"lock"}"><span class="ic">${b.ic}</span><div><h3>${b.n}</h3><span class="sm">${b.d}</span></div></div>`}).join("");
+}
+function phaseOf(n){return [1,2,3,5].includes(n)?"foundation":([6,7,9].includes(n)?"pentest":"career")}
+function rFocus(){
+  const l=L.find(x=>x.n===S.pinned);const box=$("#focusList"),title=$("#focusTitle");
+  if(!l){title.textContent="Belum ada tahap yang disematkan";box.innerHTML='<p class="sm">Sematkan satu tahap dari roadmap untuk menampilkan checklist-nya di sini.</p>';return}
+  title.textContent="Tahap "+l.n+" · "+l.t;box.innerHTML=l.k.map((k,i)=>`<label class="focus-item"><input type="checkbox" data-focus="${l.n}-${i}" ${S.c[l.n+"-"+i]?"checked":""}><span>${k}</span></label>`).join("");
+  box.querySelectorAll("input").forEach(el=>el.onchange=()=>{S.c[el.dataset.focus]=el.checked?1:0;save();renderAll(true)});
+}
+function rLevels(){
+  const open=[...document.querySelectorAll("#levels details[open]")].map(x=>x.dataset.n),f=SCHED[dow].lv[0],phase=S.phase||"foundation";
+  $("#levels").innerHTML=L.filter(l=>phaseOf(l.n)===phase).map(l=>{const a=done(l),o=open.includes(""+l.n)||(!open.length&&f===l.n);
+  return`<details data-n="${l.n}" ${o?"open":""} class="${a===l.k.length?"dn":""}"><summary><span class="lv">T${l.n}</span><span><h3>${l.t}</h3><span class="sm">${a}/${l.k.length} selesai · +10 XP per materi</span><span class="lbar" aria-hidden="true"><i style="width:${Math.round(a/l.k.length*100)}%"></i></span></span><button class="pinbtn" type="button" data-pin="${l.n}">${S.pinned===l.n?"📌 Dipin":"📍 Pin"}</button></summary>
+  <div class="body"><p>Sumber belajar:</p><div class="res">${rl(RES[l.n]||[])}</div>
+  ${l.k.map((k,i)=>`<label class="t"><input type="checkbox" data-id="${l.n}-${i}" ${S.c[l.n+"-"+i]?"checked":""}><span>${k}</span></label>`).join("")}</div></details>`}).join("");
+  document.querySelectorAll("#levels input[data-id]").forEach(el=>el.onchange=()=>{const b=stats().xp;S.c[el.dataset.id]=el.checked?1:0;save();renderAll();const g=stats().xp-b;if(g>0)toast("+"+g+" XP")});
+  document.querySelectorAll("[data-pin]").forEach(b=>b.onclick=e=>{e.preventDefault();e.stopPropagation();S.pinned=+b.dataset.pin;save();renderAll(true);toast("Tahap "+S.pinned+" dipin ke Fokus Hari Ini")});
+  rFocus();
+}
+function rJournal(){
+  const a=(S.journal||[]).slice().sort((x,y)=>y.ts-x.ts).slice(0,10);
+  const b=Object.keys(S.log).filter(k=>ok(k)&&S.log[k].note).sort().reverse().slice(0,5).map(k=>({ts:num(k)*864e5,stage:S.log[k].lv,text:S.log[k].note,date:k}));
+  const all=a.concat(b).sort((x,y)=>y.ts-x.ts).slice(0,10);
+  $("#jr").innerHTML=all.length?all.map(e=>`<div class="j"><span class="sm">${e.date||new Date(e.ts).toLocaleDateString("id-ID")} · Tahap ${e.stage||"-"}</span><p>${String(e.text||"").replace(/</g,"&lt;")}</p></div>`).join(""):'<p class="sm">Belum ada jurnal.</p>';
+}
+function journalUI(){
+  $("#jrStage").innerHTML=L.map(l=>`<option value="${l.n}">Tahap ${l.n} · ${l.t}</option>`).join("");
+  $("#jrStage").value=S.pinned||SCHED[dow].lv[0];
+  $("#jrTemplate").onclick=()=>{$("#jrText").value="Konsep Dipahami:\n\nPerintah Baru:\n\nKendala:\n"};
+  $("#jrSave").onclick=()=>{const text=$("#jrText").value.trim();if(!text){toast("Isi jurnal dulu");return}S.journal=S.journal||[];S.journal.push({ts:Date.now(),stage:+$("#jrStage").value,text});$("#jrText").value="";save();renderAll(true);toast("Jurnal tersimpan")};
+}
+function renderAll(quiet){const s=stats();rHero(s);rHeat();rBadges(s,quiet);rLevels();rJournal();backupUI();save();absenUI()}
+
+function renderAll(quiet){const s=stats();rHero(s);rHeat();rBadges(s,quiet);rLevels();rJournal();save();absenUI()}
+
+/* absen */
+let mood=3,dur=15,left=900,iv=null;
+const e0=S.log[tk];if(e0&&e0.ok){mood=e0.mood;$("#note").value=e0.note||"";$("#min").value=e0.min}
+function drawMood(){$("#mood").innerHTML=MOODS.map((m,i)=>`<button data-i="${i}" class="${i===mood?"on":""}" aria-label="Mood ${i+1}">${m}</button>`).join("");
+  document.querySelectorAll("#mood button").forEach(b=>b.onclick=()=>{mood=+b.dataset.i;drawMood()})}
+function absenUI(){$("#absen").textContent=ok(tk)?"Perbarui absen":"Absen sekarang";$("#absenInfo").textContent=ok(tk)?"Sudah absen hari ini. Kamu bisa ubah catatannya.":""}
+$("#absen").onclick=()=>{
+  const b=stats(),br=rankOf(b.xp),first=!ok(tk);
+  S.log[tk]={ok:1,min:Math.max(1,+$("#min").value||15),mood,note:$("#note").value.trim(),lv:+$("#lvSel").value};
+  const n=stats();renderAll(true);
+  const rb=rankOf(n.xp),nb=BD.filter(x=>x.f(n)&&!(S.b[x.id]&&S.b[x.id]!==tk)&&!S.b[x.id]);
+  BD.forEach(x=>{if(x.f(n)&&!S.b[x.id])S.b[x.id]=tk});save();
+  toast(rb>br?"Naik rank: "+RANKS[rb][1]+"! 🎉":first?"Absen tercatat! Streak "+n.cur+" 🔥":"Absen diperbarui");
+  rBadges(n,true);
+};
+
+/* timer */
+const TITLE=document.title;let endAt=0,acx=null;
+function drawClock(){$("#clock").textContent=pad(Math.floor(left/60))+":"+pad(left%60)}
+function drawDur(){$("#dur").innerHTML=[10,15,20,25].map(m=>`<button class="${m===dur?"on":""}" data-m="${m}">${m} mnt</button>`).join("");
+  document.querySelectorAll("#dur button").forEach(b=>b.onclick=()=>{if(iv)return;dur=+b.dataset.m;left=dur*60;drawClock();drawDur()})}
+function beep(){try{acx=acx||new AudioContext();acx.resume();[0,.35,.7].forEach(t=>{const o=acx.createOscillator(),g=acx.createGain();o.connect(g);g.connect(acx.destination);o.frequency.value=880;g.gain.value=.15;o.start(acx.currentTime+t);o.stop(acx.currentTime+t+.25)})}catch(e){}}
+function finish(){clearInterval(iv);iv=null;left=dur*60;drawClock();$("#go").textContent="Mulai";$("#min").value=dur;document.title="Selesai! · "+TITLE;
+  beep();try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
+  try{if("Notification" in window&&Notification.permission==="granted")new Notification("Sesi belajar selesai 🎉",{body:"Isi catatan lalu absen."})}catch(e){}
+  if(dur>=25){
+    const first=!ok(tk);S.log[tk]={ok:1,min:Math.max(25,+$("#min").value||25),mood,note:$("#note").value.trim(),lv:+$("#lvSel").value};save();renderAll(true);toast(first?"25 menit tercapai — absen otomatis tercatat! 🔥":"Sesi 25 menit selesai — absen hari ini diperbarui.");
+  }else toast("Sesi selesai! Untuk absen otomatis, gunakan timer 25 menit.")}
+function tick(){left=Math.max(0,Math.round((endAt-Date.now())/1e3));drawClock();document.title=pad(Math.floor(left/60))+":"+pad(left%60)+" · Belajar";if(left<=0)finish()}
+$("#go").onclick=()=>{
+  if(iv){clearInterval(iv);iv=null;$("#go").textContent="Lanjut";document.title=TITLE;return}
+  try{acx=acx||new AudioContext();acx.resume();if("Notification" in window&&Notification.permission==="default")Notification.requestPermission()}catch(e){}
+  endAt=Date.now()+left*1000;$("#go").textContent="Jeda";iv=setInterval(tick,500)};
+$("#rst").onclick=()=>{clearInterval(iv);iv=null;left=dur*60;drawClock();$("#go").textContent="Mulai";document.title=TITLE};
+
+/* backup */
+function backupUI(){const last=+S.lastExport||0,age=last?Date.now()-last:Infinity;$("#backupAlert").hidden=age<=7*864e5;$("#backupInfo").textContent=last?"Backup terakhir: "+new Date(last).toLocaleString("id-ID"):"Belum pernah membuat backup."}
+function downloadJSON(){const data=JSON.stringify(S,null,2),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));a.download="cybersecurity-dashboard-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);S.lastExport=Date.now();save();backupUI();toast("File JSON berhasil diunduh")}
+const cp=()=>{const t=$("#bk");t.value=JSON.stringify(S,null,2);t.select();try{navigator.clipboard.writeText(t.value);toast("JSON tersalin")}catch(e){document.execCommand&&document.execCommand("copy")}};
+$("#exJ").onclick=downloadJSON;$("#cp").onclick=cp;
+$("#exM").onclick=()=>{const md="# Jurnal Belajar\n\n"+(S.journal||[]).slice().sort((a,b)=>a.ts-b.ts).map(e=>`## ${new Date(e.ts).toLocaleDateString("id-ID")} — Tahap ${e.stage}\n${e.text}\n`).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([md],{type:"text/markdown"}));a.download="jurnal-cybersecurity.md";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast("Jurnal Markdown berhasil diunduh")};
+$("#pickJson").onclick=()=>$("#jsonFile").click();$("#jsonFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!d.log||!d.c)throw 0;S=Object.assign({c:{},log:{},b:{},journal:[]},d);save();renderAll(true);toast("Backup JSON berhasil dipulihkan")}catch(err){toast("File JSON tidak valid")}};
+$("#im").onclick=()=>{try{const d=JSON.parse($("#bk").value);if(!d.log||!d.c)throw 0;S=Object.assign({c:{},log:{},b:{},journal:[]},d);renderAll(true);toast("Data berhasil diimpor")}catch(e){toast("Format data tidak valid")}};
+
+$("#themeBtn").onclick=()=>{const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=d?"light":"dark";setTimeout(themeRedraw,50)};
+
+/* cloud */
+let cloud=null,pt;
+const setSync=m=>{$("#sync").textContent=m};
+function push(){if(!cloud)return;clearTimeout(pt);pt=setTimeout(async()=>{try{await cloud.set({json:JSON.stringify(S),t:S.t||Date.now()});setSync("☁️ Tersimpan di cloud")}catch(e){setSync("⚠️ Gagal sinkron ke cloud, data tetap aman di browser")}},1500)}
+(async()=>{try{
+  if(!window.claude)throw 0;
+  const[db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+  if(!db||!user)throw 0;
+  const uid=await user.id();if(!uid)throw 0;
+  cloud=db.doc("data/users/"+uid+"/progress");
+  const sn=await cloud.get();
+  if(sn.exists){const r=sn.data();let d;try{d=JSON.parse(r.json)}catch(e){}
+    if(d&&(+r.t||0)>(S.t||0)){S=Object.assign({c:{},log:{},b:{}},d);S.t=+r.t;lastSnap=snapOf();renderAll(true);setSync("☁️ Data dimuat dari cloud");return}}
+  push();setSync("☁️ Sinkron cloud aktif")
+}catch(e){setSync("")}})();
+(async()=>{try{const dl=window.claude&&await claude.use("downloads");if(!dl)return;const b=$("#dlb");b.hidden=false;b.onclick=async()=>{try{await dl.save({filename:"daily-belajar-backup.json",data:JSON.stringify(S)})}catch(e){toast("Simpan dibatalkan")}}}catch(e){}})();
+
+/* init */
+$("#dayName").textContent=DN[dow];$("#dayNote").textContent=SCHED[dow].n;
+$("#chips").innerHTML=SCHED[dow].lv.map(n=>`<span class="chip">Level ${n}: ${lvOf(n).t}</span>`).join("");
+$("#lvSel").innerHTML=L.map(l=>`<option value="${l.n}">L${l.n} · ${l.t}</option>`).join("");
+$("#lvSel").value=e0&&e0.ok?e0.lv:SCHED[dow].lv[0];
+$("#extra").innerHTML=rl(EX);
+document.querySelectorAll("#phaseTabs button").forEach(b=>b.onclick=()=>{S.phase=b.dataset.phase;document.querySelectorAll("#phaseTabs button").forEach(x=>x.classList.toggle("on",x===b));save();rLevels()});
+document.querySelector("#clearPin").onclick=()=>{S.pinned=0;save();rFocus()};
+document.querySelectorAll("#phaseTabs button").forEach(b=>b.classList.toggle("on",b.dataset.phase===(S.phase||"foundation")));
+journalUI();drawMood();drawDur();drawClock();renderAll(true);
+function PB(W,H,seed,o){
+let s=seed|0;const R=()=>{s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const P0=[];
+for(let i=0;i<o.n;i++){let b,bd=-1;for(let k=0;k<10;k++){const p=[W*.07+R()*W*.86,H*.07+R()*H*.86];let d=1e9;for(const q of P0)d=Math.min(d,(p[0]-q[0])**2+(p[1]-q[1])**2);if(d>bd){bd=d;b=p}}P0.push(b)}
+const E=[],seen={},adj=P0.map(()=>[]);
+P0.forEach((p,i)=>{P0.map((q,j)=>[j,(p[0]-q[0])**2+(p[1]-q[1])**2]).filter(x=>x[0]!=i).sort((a,b)=>a[1]-b[1]).slice(0,2).forEach(([j,d])=>{const k=Math.min(i,j)+"-"+Math.max(i,j);if(seen[k])return;seen[k]=1;const q=P0[j],a=Math.atan2(q[1]-p[1],q[0]-p[0])+Math.PI/2,c=(R()-.5)*o.curve*Math.sqrt(d),e={a:i,b:j,x:(p[0]+q[0])/2+Math.cos(a)*c,y:(p[1]+q[1])/2+Math.sin(a)*c};E.push(e);adj[i].push(e);adj[j].push(e)})});
+const open=P0.map(()=>R()<o.open),pulse=P0.map(()=>0);
+const pos=p=>{const A=P0[p.e.a],B=P0[p.e.b],u=p.f?1-p.t:p.t,v=1-u;return[v*v*A[0]+2*v*u*p.e.x+u*u*B[0],v*v*A[1]+2*v*u*p.e.y+u*u*B[1]]};
+const K=[];for(let i=0;i<o.packets;i++)K.push({e:E[R()*E.length|0],f:R()<.5,t:R(),v:.004+R()*.009,h:[],c:R()*3|0});
+return{
+step(dt){for(const p of K){p.t+=p.v*o.speed*dt;if(p.t>=1){const n=p.f?p.e.a:p.e.b,l=adj[n],e=l[R()*l.length|0];p.f=e.a!==n;p.e=e;p.t=0;pulse[n]=1}p.h.push(pos(p));while(p.h.length>o.trail)p.h.shift()}for(let i=0;i<pulse.length;i++)pulse[i]*=.96},
+draw(g,C){const sc=o.sc;g.lineCap="round";g.lineJoin="round";
+g.globalAlpha=.2;g.strokeStyle=C[0];g.lineWidth=Math.max(.6,sc);
+for(const e of E){const A=P0[e.a],B=P0[e.b];g.beginPath();g.moveTo(A[0],A[1]);g.quadraticCurveTo(e.x,e.y,B[0],B[1]);g.stroke()}
+for(const p of K){const h=p.h,n=h.length;g.strokeStyle=C[p.c];g.lineWidth=Math.max(.8,1.7*sc);for(let i=1;i<n;i++){g.globalAlpha=i/n*.9;g.beginPath();g.moveTo(h[i-1][0],h[i-1][1]);g.lineTo(h[i][0],h[i][1]);g.stroke()}}
+P0.forEach((p,i)=>{const r=Math.max(1.5,3*sc);g.globalAlpha=.85;g.fillStyle=C[0];g.beginPath();g.arc(p[0],p[1],r,0,7);g.fill();if(open[i]){g.globalAlpha=.25+pulse[i]*.6;g.strokeStyle=C[1];g.lineWidth=Math.max(.8,1.4*sc);g.beginPath();g.arc(p[0],p[1],r*2+pulse[i]*r*3,0,7);g.stroke()}});
+g.globalAlpha=1}}}
+
+function cols(){const c=getComputedStyle(document.documentElement);return["--acc","--acc2","--mute"].map(k=>c.getPropertyValue(k).trim())}
+function emblem(r){const o=document.querySelector("#rank .emb");if(o)o.remove();const el=document.createElement("div");el.className="emb";el.title="MIT";el.innerHTML='<img src="data:image/webp;base64,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" alt="Segel MIT">';document.querySelector("#rank").appendChild(el)}
+var bgc=$("#bg"),bgx=bgc.getContext("2d"),bgS,bgC,bgL=0,bgW=0,bgR=matchMedia("(prefers-reduced-motion:reduce)");
+function bgInit(){const d=devicePixelRatio>1?1.5:1,W=innerWidth,H=innerHeight;bgW=W;bgC=cols();bgc.width=W*d;bgc.height=H*d;bgx.setTransform(d,0,0,d,0,0);bgS=PB(W,H,20260929,{n:W<700?12:22,packets:W<700?14:26,curve:.5,open:.3,speed:1,trail:16,sc:Math.max(.8,W/900)});if(bgR.matches){for(let i=0;i<40;i++)bgS.step(1);bgS.draw(bgx,bgC)}}
+function bgLoop(t){requestAnimationFrame(bgLoop);if(bgR.matches||document.hidden||t-bgL<33)return;bgL=t;bgx.clearRect(0,0,innerWidth,innerHeight);bgS.step(1);bgS.draw(bgx,bgC)}
+function themeRedraw(){bgC=cols();if(bgR.matches){bgx.clearRect(0,0,innerWidth,innerHeight);bgS.draw(bgx,bgC)}emblem(rankOf(stats().xp))}
+var bgT;addEventListener("resize",()=>{clearTimeout(bgT);bgT=setTimeout(()=>{if(innerWidth!==bgW)bgInit()},200)});
+bgInit();requestAnimationFrame(bgLoop);
+
+/* dock magnify + sliding pill */
+(()=>{
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+const SEL=".res,.seg",MAXS=1.45,RAD=85,LIFT=10;let cur=null,q=0;
+const items=g=>[...g.querySelectorAll(":scope>a,:scope>button")];
+const pill=g=>{if(!g._p||g._p.parentNode!==g){g._p=document.createElement("i");g._p.className="dk-i";g.appendChild(g._p)}return g._p};
+const act=g=>g.querySelector(":scope>button.on")||items(g).find(x=>x.href&&x.href===g._cur);
+function paint(g,t,s){
+  const p=pill(g);
+  items(g).forEach(x=>{const on=x===t;x.style.color=on?"var(--bg)":"";x.style.background=on?"transparent":"";x.style.borderColor=on?"transparent":"";x.style.zIndex=on&&s>1?20:""});
+  if(!t||!t.offsetWidth){p.style.opacity=0;return}
+  const w=t.offsetWidth,h=t.offsetHeight,fresh=p.style.opacity!=="1";
+  if(fresh)p.style.transition="none";
+  p.style.width=w*s+"px";p.style.height=h*s+"px";
+  p.style.transform=`translate(${t.offsetLeft-w*(s-1)/2}px,${t.offsetTop-h*(s-1)-(s-1)*LIFT/(MAXS-1)*.4}px)`;
+  p.style.opacity=1;
+  if(fresh){p.offsetWidth;p.style.transition=""}
+}
+function mag(g,x,y){
+  const r=g.getBoundingClientRect();let best=null,bs=1;
+  items(g).forEach(it=>{
+    const cx=r.left+it.offsetLeft+it.offsetWidth/2,cy=r.top+it.offsetTop+it.offsetHeight/2;
+    const d=Math.hypot(x-cx,y-cy),k=d<RAD?(Math.cos(d/RAD*Math.PI)+1)/2:0,s=1+(MAXS-1)*k;
+    it.style.transform=`translateY(${-(s-1)/(MAXS-1)*LIFT*.4}px) scale(${s})`;
+    if(!it.style.zIndex||it.style.zIndex!=="20")it.style.zIndex=1+Math.round(k*8);
+    if(s>bs){bs=s;best=it}
+  });
+  if(best&&bs>1.03){items(g).forEach(it=>{if(it!==best)it.style.zIndex=it.style.zIndex==="20"?1:it.style.zIndex});paint(g,best,bs)}
+  else paint(g,act(g),1);
+}
+function leave(g){delete g.dataset.mv;items(g).forEach(it=>{it.style.transform="";it.style.zIndex=""});paint(g,act(g),1);cur=null}
+document.addEventListener("pointermove",e=>{
+  if(e.pointerType!=="mouse")return;
+  const g=e.target.closest&&e.target.closest(SEL);
+  if(cur&&cur!==g)leave(cur);
+  if(g&&items(g).length){cur=g;g.dataset.mv=1;mag(g,e.clientX,e.clientY)}
+});
+document.documentElement.addEventListener("mouseleave",()=>{if(cur)leave(cur)});
+document.addEventListener("pointerdown",e=>{const it=e.target.closest&&e.target.closest(".res>a,.res>button,.seg>button");if(it){it.style.transition="transform .06s ease";it.style.transform="scale(.94)"}});
+document.addEventListener("pointerup",e=>{
+  const g=e.target.closest&&e.target.closest(SEL);
+  if(!g)return;items(g).forEach(it=>it.style.transition="");
+  if(e.pointerType==="mouse")mag(g,e.clientX,e.clientY);else items(g).forEach(it=>it.style.transform="");
+});
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest(".res>a");if(a)a.parentNode._cur=a.href;sync()});
+const sync=()=>{cancelAnimationFrame(q);q=requestAnimationFrame(()=>document.querySelectorAll(SEL).forEach(g=>{if(g!==cur)paint(g,act(g),1)}))};
+new MutationObserver(sync).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:["class","open"]});
+addEventListener("resize",sync);addEventListener("load",sync);sync();
+})();
+</script>
+<script>
+(function(){
+/* [teks Indonesia, tokoh, peran, kategori, pesan, teks asli, judul Wikipedia] */
+const Q=[
+["Keamanan adalah proses, bukan produk.","Bruce Schneier","Pakar kriptografi dan keamanan","Cybersecurity","Belajar keamanan itu berkelanjutan. Tidak ada tool sekali pasang yang membuatmu aman selamanya.","Security is a process, not a product.","Bruce_Schneier"],
+["Amatir meretas sistem, profesional meretas manusia.","Bruce Schneier","Pakar kriptografi dan keamanan","Cybersecurity","Pelajari social engineering dan faktor manusia, bukan hanya sisi teknis.","Amateurs hack systems, professionals hack people.","Bruce_Schneier"],
+["Prinsip pertama: jangan menipu dirimu sendiri, karena kamu adalah orang yang paling mudah ditipu.","Richard Feynman","Fisikawan, peraih Nobel","Berkembang","Uji pemahamanmu lewat lab dan challenge, jangan hanya merasa sudah paham.","The first principle is that you must not fool yourself, and you are the easiest person to fool.","Richard_Feynman"],
+["Pengujian bisa menunjukkan adanya bug, tetapi tidak pernah membuktikan ketiadaannya.","Edsger W. Dijkstra","Pelopor ilmu komputer","Cybersecurity","Tidak menemukan celah bukan berarti aman. Terus gali dengan sudut pandang baru.","Program testing can be used to show the presence of bugs, but never their absence.","Edsger_W._Dijkstra"],
+["Bicara itu murah. Tunjukkan kodenya.","Linus Torvalds","Pencipta Linux","Disiplin","Hasil nyata lebih berharga daripada rencana. Selesaikan satu lab hari ini.","Talk is cheap. Show me the code.","Linus_Torvalds"],
+["Kita hanya bisa melihat sedikit ke depan, tetapi di sana banyak hal yang perlu dikerjakan.","Alan Turing","Bapak ilmu komputer dan pemecah kode Enigma","Berkembang","Tidak perlu melihat seluruh jalan. Kerjakan langkah yang ada di depanmu.","We can only see a short distance ahead, but we can see plenty there that needs to be done.","Alan_Turing"],
+["Imajinasi lebih penting daripada pengetahuan.","Albert Einstein","Fisikawan, peraih Nobel","Berkembang","Pentester hebat berpikir kreatif: bagaimana sistem ini bisa disalahgunakan?","Imagination is more important than knowledge.","Albert_Einstein"],
+["Kita adalah apa yang berulang kali kita lakukan. Keunggulan bukan sebuah tindakan, melainkan kebiasaan.","Will Durant (merangkum pemikiran Aristoteles)","Filsuf dan sejarawan","Disiplin","15 menit setiap hari lebih kuat daripada 5 jam sekali sebulan.","We are what we repeatedly do. Excellence, then, is not an act but a habit.","Will_Durant"],
+["Kalimat paling berbahaya adalah: kita selalu melakukannya dengan cara ini.","Grace Hopper","Pionir bahasa pemrograman dan laksamana AL AS","Berkembang","Kebiasaan lama bisa jadi celah. Pertanyakan asumsi, termasuk caramu belajar.","The most dangerous phrase in the language is: we've always done it this way.","Grace_Hopper"],
+["Tidak ada yang perlu ditakuti dalam hidup, hanya perlu dipahami.","Marie Curie","Ilmuwan, dua kali peraih Nobel","Berkembang","Topik yang terasa sulit, seperti buffer overflow atau kriptografi, cukup dipahami pelan-pelan.","Nothing in life is to be feared, it is only to be understood.","Marie_Curie"],
+["Kenali musuh dan kenali dirimu; dalam seratus pertempuran kamu tidak akan terancam bahaya.","Sun Tzu (The Art of War)","Ahli strategi militer","Cybersecurity","Pahami cara penyerang berpikir (offense) dan kelemahan sistemmu sendiri (defense).","Know the enemy and know yourself; in a hundred battles you will never be in peril.","Sun_Tzu"],
+["Kejeniusan adalah satu persen inspirasi dan sembilan puluh sembilan persen kerja keras.","Thomas Edison","Penemu","Disiplin","Motivasi datang dan pergi. Jadwal belajar yang konsisten yang membawamu sampai tujuan.","Genius is one percent inspiration and ninety-nine percent perspiration.","Thomas_Edison"],
+["Satu-satunya cara mengerjakan hal hebat adalah mencintai apa yang kamu kerjakan.","Steve Jobs","Pendiri Apple","Disiplin","Cari bagian cybersecurity yang paling membuatmu penasaran dan mulai dari situ.","The only way to do great work is to love what you do.","Steve_Jobs"]
+];
+const $=id=>document.getElementById(id);
+const d0=new Date();d0.setHours(0,0,0,0);
+const dayIdx=Math.floor((d0-new Date(2026,0,1))/864e5);
+const todayI=((dayIdx%Q.length)+Q.length)%Q.length;
+let i=todayI;const cache={};
+function photo(t,name){
+  const img=$("fcImg");img.hidden=true;img.removeAttribute("src");
+  $("fcIni").textContent=name.split(/[ (]/).filter(Boolean).slice(0,2).map(w=>w[0]).join("");
+  const set=u=>{if(Q[i][6]===t&&u){img.alt="Foto "+name;img.onload=()=>{img.hidden=false;$("fcIni").hidden=true};img.src=u}};
+  $("fcIni").hidden=false;
+  if(t in cache){set(cache[t]);return}
+  fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(t))
+    .then(r=>r.ok?r.json():null)
+    .then(j=>{const u=j&&j.thumbnail&&j.thumbnail.source||null;cache[t]=u;set(u)})
+    .catch(()=>{cache[t]=null});
+}
+function show(){
+  const q=Q[i];
+  $("fcCat").textContent=q[3]+(i===todayI?" · Hari ini":"");
+  $("fcQ").textContent="\u201C"+q[0]+"\u201D";
+  $("fcA").textContent=q[1];$("fcR").textContent=q[2];
+  $("fcTip").textContent=q[4];$("fcOrig").textContent=q[5];
+  $("fcN").textContent=(i+1)+" / "+Q.length;
+  $("fc").classList.remove("flip");
+  photo(q[6],q[1]);
+}
+$("fc").onclick=()=>$("fc").classList.toggle("flip");
+$("fcNext").onclick=()=>{i=(i+1)%Q.length;show()};
+$("fcPrev").onclick=()=>{i=(i-1+Q.length)%Q.length;show()};
+$("fcRnd").onclick=()=>{let n;do{n=Math.floor(Math.random()*Q.length)}while(n===i);i=n;show()};
+$("fcToday").onclick=()=>{i=todayI;show()};
+show();
+})();
+</script>
+</body>
+</html>
